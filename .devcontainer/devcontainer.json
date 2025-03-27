@@ -1,20 +1,19 @@
 {
   "name": "Drupal 11 with DDEV",
-  "build": {
-    "dockerfile": "Dockerfile"
+  "image": "mcr.microsoft.com/vscode/devcontainers/php:8",
+  "features": {
+    "docker-in-docker": "latest"
   },
+  "postCreateCommand": ["bash", "setup.sh"],
   "forwardPorts": [80, 443],
-  "postCreateCommand": "ddev start && ddev composer create drupal/recommended-project my-drupal-site && ddev exec drush site-install --account-name=admin --account-pass=admin -y",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "davidanson.vscode-markdownlint",
-        "esbenp.prettier-vscode",
-        "bmewburn.vscode-intelephense-client",
-        "xdebug.php-debug"
-      ]
+  "portsAttributes": {
+    "80": {
+      "label": "Drupal Site",
+      "onAutoForward": "openPreview"
     }
   },
-  "remoteUser": "vscode"
+  "extensions": [
+    "xdebug.php-debug",
+    "bmewburn.vscode-intelephense-client"
+  ]
 }
-
